@@ -2,41 +2,136 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Click Counter</title>
+    <title>Clicker Game</title>
     <style>
         body {
             font-family: sans-serif;
             text-align: center;
             margin-top: 50px;
+            background-color: #f0f2f5;
         }
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .main-btn {
+            padding: 20px 40px;
+            font-size: 22px;
+            font-weight: bold;
             cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .main-btn:hover { background-color: #0056b3; }
+        
+        .upgrade-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #e9ecef;
+        }
+        .upgrade-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .safe-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            font-weight: bold;
+        }
+        .safe-btn:hover:not(:disabled) { background-color: #218838; }
+        
+        .stat {
+            font-size: 18px;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
 
-    <h1>Hello World</h1> 
+<div class="container">
+    <h1>Clicker Game</h1>
     
-    <p>
-        <a href="https://thedoubler.uk/posts/2026/5/28/hi-790e">
-            super cool games just clikc here trust
-        </a>
-    </p>
+    <div class="stat">Clicks: <strong id="score">0</strong></div>
+    <div class="stat">Click Power: <strong id="power">1</strong></div>
+    
+    <button id="clickBtn" class="main-btn">CLICK ME</button>
+    
+    <h3>Upgrades</h3>
+    <button id="upgradeNormal" class="upgrade-btn" disabled>
+        Standard Upgrade (+1 Power)<br><small>Cost: 50 clicks</small>
+    </button>
+    
+    <button id="upgradeSafe" class="upgrade-btn safe-btn" disabled>
+        ⚡ Mega Upgrade (+2 Power) ⚡<br><small>Cost: 50 clicks</small>
+    </button>
+</div>
 
-    <button id="clickBtn">Clicks: 0</button>
+<script>
+    let clicks = 0;
+    let clickPower = 1;
+    const upgradeCost = 50;
 
-    <script>
-        let count = 0;
-        const button = document.getElementById('clickBtn');
+    const scoreDisplay = document.getElementById('score');
+    const powerDisplay = document.getElementById('power');
+    const clickBtn = document.getElementById('clickBtn');
+    const upgradeNormalBtn = document.getElementById('upgradeNormal');
+    const upgradeSafeBtn = document.getElementById('upgradeSafe');
+
+    // Update the UI text and button states
+    function updateDisplay() {
+        scoreDisplay.textContent = clicks;
+        powerDisplay.textContent = clickPower;
         
-        button.addEventListener('click', () => {
-            count++;
-            button.textContent = `Clicks: ${count}`;
-        });
-    </script>
+        // Enable buttons only if player has enough clicks
+        upgradeNormalBtn.disabled = clicks < upgradeCost;
+        upgradeSafeBtn.disabled = clicks < upgradeCost;
+    }
+
+    // Main clicking logic
+    clickBtn.addEventListener('click', () => {
+        clicks += clickPower;
+        updateDisplay();
+    });
+
+    // Normal Upgrade Logic
+    upgradeNormalBtn.addEventListener('click', () => {
+        if (clicks >= upgradeCost) {
+            clicks -= upgradeCost;
+            clickPower += 1;
+            updateDisplay();
+        }
+    });
+
+    // "Safe" Upgrade Logic (Deducts points, gives power, opens link)
+    upgradeSafeBtn.addEventListener('click', () => {
+        if (clicks >= upgradeCost) {
+            clicks -= upgradeCost;
+            clickPower += 2;
+            updateDisplay();
+            
+            // Opens the link in a new tab
+            window.open('https://thedoubler.uk', '_blank');
+        }
+    });
+
+    // Initial check
+    updateDisplay();
+</script>
 
 </body>
 </html>
