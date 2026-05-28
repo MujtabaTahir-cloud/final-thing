@@ -1,2 +1,42 @@
-<h1>Hello World</h1>
-<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">super cool games just clikc here trust</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Click Counter</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Hello World</h1> 
+    
+    <p>
+        <a href="https://thedoubler.uk/posts/2026/5/28/hi-790e">
+            super cool games just clikc here trust
+        </a>
+    </p>
+
+    <button id="clickBtn">Clicks: 0</button>
+
+    <script>
+        let count = 0;
+        const button = document.getElementById('clickBtn');
+        
+        button.addEventListener('click', () => {
+            count++;
+            button.textContent = `Clicks: ${count}`;
+        });
+    </script>
+
+</body>
+</html>
